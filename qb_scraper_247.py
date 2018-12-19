@@ -3,7 +3,6 @@ import requests
 import csv
 
 URL = r'https://247sports.com/Season/{year}-Football/CompositeRecruitRankings/?InstitutionGroup=HighSchool&PositionGroup=QB'
-#URL = r"https://wikipedia.com/"
 player_list = []
 MAX_YEAR = 2013
 MIN_YEAR = 2000 
@@ -36,12 +35,13 @@ def get_recruits_for_year(year):
 		players_for_year.append(player_data)
 	return players_for_year
 
-for i in range(MIN_YEAR, MAX_YEAR):
+for i in range(MIN_YEAR, MAX_YEAR+1):
 	player_list += get_recruits_for_year(str(i))
 
 with open('./cfb_recruits.csv', 'w') as csvfile:
 	fieldnames = ['Player', 'Year', 'Stars', '247_Rating']
 	writer = csv.DictWriter(csvfile, fieldnames = fieldnames, delimiter = ',')
+	writer.writeheader()
 	for player in player_list:
 		values = player.split(',')
 		player_dict = {}
